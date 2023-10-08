@@ -1,0 +1,67 @@
+[
+    {
+      "name": "Omar",
+      "last_name": "Gutierrez",
+      "username": "omargtdev",
+      "password": "f8b7cd8c68b170ff0b52fa0d360a81d3bd519643351cca74931e5d8ada934ed4",
+      "salt": "rHhtplplar",
+      "email": "omargtdev@gmail.com",
+      "address": "123 Main St",
+      "phone": "555-123-4567",
+      "is_admin": true,
+      "photo_url": null,
+      "permissions": []
+    },
+    {
+      "name": "Jane",
+      "last_name": "Smith",
+      "username": "janesmith",
+      "password": "2293fc5dcd88da9a55163f2d38b9f5abb8904d4a083688aec26a478a4077a6bd",
+      "salt": "2w0N7nA9pS",
+      "email": "janesmith@example.com",
+      "address": "456 Elm St",
+      "phone": "555-987-6543",
+      "is_admin": false,
+      "photo_url": null,
+      "permissions": []
+    },
+    {
+      "name": "Mike",
+      "last_name": "Johnson",
+      "username": "mikejohnson",
+      "password": "487060fc94d5fc4b16ac2169cdfeaa7d28511b653f4ee3953979a19420c35d53",
+      "salt": "2sVXhyZrzX",
+      "email": "mikejohnson@example.com",
+      "address": "789 Oak St",
+      "phone": "555-456-7890",
+      "is_admin": false,
+      "photo_url": null,
+      "permissions": []
+    },
+    {
+      "name": "Emily",
+      "last_name": "Brown",
+      "username": "emilybrown",
+      "password": "022c1f38d8fead3b5f5a011e2df16e5558995d9f4457ef961552f4dbe20349f2",
+      "salt": "z8IevxaE1F",
+      "email": "emilybrown@example.com",
+      "address": "234 Maple St",
+      "phone": "555-789-1234",
+      "is_admin": false,
+      "photo_url": null,
+      "permissions": []
+    },
+    {
+      "name": "David",
+      "last_name": "Wilson",
+      "username": "davidwilson",
+      "password": "a329c28673f54c94345ef03147bf4a6b9f657e4dc012f32d0d74c804356d46f1",
+      "salt": "WnyfuB8tRR",
+      "email": "davidwilson@example.com",
+      "address": "567 Pine St",
+      "phone": "555-234-5678",
+      "is_admin": false,
+      "photo_url": null,
+      "permissions": []
+    }
+  ]

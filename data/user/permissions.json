@@ -1,0 +1,65 @@
+{
+    "modules": {
+        "client": [
+            {
+              "key": "view_client",
+              "name": "Obtener clientes",
+              "description": "Con este permiso el usuario puede obtener clientes."
+            },
+            {
+              "key": "create_client",
+              "name": "Crear cliente",
+              "description": "Con este permiso el usuario puede crear clientes."
+            },
+            {
+              "key": "update_client",
+              "name": "Actualizar cliente",
+              "description": "Con este permiso el usuario puede actualizar clientes."
+            },
+            {
+              "key": "deactivate_client",
+              "name": "Desactivar cliente",
+              "description": "Con este permiso el usuario puede desactivar clientes."
+            },
+            {
+              "key": "activate_client",
+              "name": "Activar cliente",
+              "description": "Con este permiso el usuario puede activar clientes."
+            }
+        ],
+        "entry": [
+            {
+              "key": "view_entry",
+              "name": "Obtener entradas",
+              "description": "Con este permiso el usuario puede obtener entradas."
+            },
+            {
+              "key": "create_entry",
+              "name": "Crear entrada",
+              "description": "Con este permiso el usuario puede crear entradas."
+            },
+            {
+              "key": "cancel_entry",
+              "name": "Cancelar entrada",
+              "description": "Con este permiso el usuario puede cancelar entradas."
+            }
+        ],
+        "issue": [
+            {
+              "key": "view_issue",
+              "name": "Obtener salidas",
+              "description": "Con este permiso el usuario puede obtener salidas."
+            },
+            {
+              "key": "create_issue",
+              "name": "Crear salida",
+              "description": "Con este permiso el usuario puede crear salidas."
+            },
+            {
+              "key": "cancel_issue",
+              "name": "Cancelar salida",
+              "description": "Con este permiso el usuario puede cancelar salidas."
+            }
+        ]
+    }
+}

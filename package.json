@@ -1,0 +1,38 @@
+{
+  "name": "inventotyx-backend",
+  "version": "0.1.0",
+  "description": "Backend for InventoryX project",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src",
+    "dev": "nodemon src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omargtdev/InventoryX-Back.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "backend"
+  ],
+  "author": "omargtdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omargtdev/InventoryX/issues"
+  },
+  "homepage": "https://github.com/omargtdev/InventoryX#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.1.0",
+    "mongoose": "^7.5.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "type": "module"
+}
