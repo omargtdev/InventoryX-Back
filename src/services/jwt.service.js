@@ -19,7 +19,7 @@ const generateToken = (id, name) => new Promise((resolve, reject) => {
 	}
 
 	jwt.sign({ name }, TOKEN_SECRET, options, (err, token) => {
-		if(err)
+		if (err)
 			return reject(err);
 
 		resolve(token);
@@ -49,18 +49,18 @@ const validateToken = (token) => new Promise((resolve, reject) => {
 		ignoreExpiration: false,
 		complete: false
 	};
-	
+
 	jwt.verify(token, TOKEN_SECRET, options, async (err, payload) => {
-		if(err){
+		if (err) {
 			console.log(err);
-			const errorType  = tokenErrorTypes[err.message];
+			const errorType = tokenErrorTypes[err.message];
 			const errorMessage = tokenErrorMessages[errorType];
 			return reject(errorMessage);
 		}
-		
+
 		const { sub: userId } = payload;
 		const userFounded = await userService.findUserById(userId);
-		if(!userFounded)
+		if (!userFounded)
 			reject(tokenErrorMessages.INVALID_TOKEN);
 
 		resolve(userId);
