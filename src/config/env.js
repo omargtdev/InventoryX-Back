@@ -10,3 +10,5 @@ export const SERVER_PORT = process.env.SERVER_PORT || 4500;
 export const TOKEN_SECRET = process.env.TOKEN_SECRET || "";
 export const TOKEN_EXPIRY_TIME = process.env.TOKEN_EXPIRY_TIME || "";
 export const TOKEN_ALGORITHM = process.env.TOKEN_ALGORITHM || "";
+export const SEED_DB = process.env.SEED_DB === "1";
+export const SEED_DB_FORCE = process.env.SEED_DB_FORCE === "1";
