@@ -2,6 +2,7 @@ import statusCodes from "../config/status-codes.js";
 import encryptService from "../services/encrypt.service.js";
 import jwtService from "../services/jwt.service.js";
 import { MappingTypes } from "../services/mappers/user.mapper.js";
+import userService from "../services/user.service.js";
 
 const messages = {
 	MISSING_FIELDS: "Necesita proveer sus credenciales.",
