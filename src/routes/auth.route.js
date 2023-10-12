@@ -9,3 +9,4 @@ router.route("/auth/profile")
 	.put(authController.updateProfile);
 
 export default router;
+
