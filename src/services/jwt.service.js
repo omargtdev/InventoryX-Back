@@ -52,7 +52,6 @@ const validateToken = (token) => new Promise((resolve, reject) => {
 
 	jwt.verify(token, TOKEN_SECRET, options, async (err, payload) => {
 		if (err) {
-			console.log(err);
 			const errorType = tokenErrorTypes[err.message];
 			const errorMessage = tokenErrorMessages[errorType];
 			return reject(errorMessage);
