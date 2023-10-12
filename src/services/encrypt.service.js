@@ -1,13 +1,6 @@
 import { createHash } from "crypto";
 
-const generateSalt = () => {
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let salt = "";
-    const saltLength = 10;
-    for(let i = 0; i < saltLength; i++)
-        salt += characters.charAt(Math.floor(Math.random() * characters.length));
-    return salt;
-}
+import generationService from "./generation.service.js";
 
 /**
  * Represents the values (salt and password) of a hashed password.
@@ -15,12 +8,12 @@ const generateSalt = () => {
  */
 
 /**
- * 
+ *
  * @param {string} password - The password to hash.
  * @returns {PasswordValues} - The values generated.
  */
 const hashPassword = (password) => {
-    const salt = generateSalt();
+    const salt = generationService.generateRandomCharacters();
     const passwordHashed = createHash("sha256")
         .update(salt)
         .update(password)
@@ -33,9 +26,9 @@ const hashPassword = (password) => {
 }
 
 /**
- * 
- * @param {string} password - The password to hash and compare. 
- * @param {PasswordValues} passwordValues - The necessary values to nake the comparison.
+ *
+ * @param {string} password - The password to hash and compare.
+ * @param {PasswordValues} passwordValues - The necessary values to make the comparison.
  * @returns {boolean} If they both match.
  */
 const compareHashedPassword = (password, passwordValues) => {
