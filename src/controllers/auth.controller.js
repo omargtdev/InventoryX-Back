@@ -15,7 +15,7 @@ const getUserToken = async (req, res) => {
 		if (!username || !password)
 			return res.status(statusCodes.BAD_REQUEST).json({ message: messages.MISSING_FIELDS });
 
-		const user = await userService.findUserByUsername(username, MappingTypes.NONE);
+		const user = await userService.findUserByUsername(username);
 		if (!user)
 			return res.status(statusCodes.UNAUTHORIZED).json({ message: messages.INVALID_CREDENTIALS });
 

@@ -20,6 +20,7 @@ export const permissionSchema = new Schema({
  * PSD: "permissions" contain keys for Permission
  */
 export const userSchema = new Schema({
+	id: { type: String, required: true, unique: true, index: true },
 	name: { type: String, required: true },
 	last_name: { type: String, required: true },
 	username: { type: String, required: true, unique: true },

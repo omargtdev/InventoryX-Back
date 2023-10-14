@@ -1,14 +1,11 @@
 
 const mapToUserProfile = (user) => {
-    if(!user)
-        return null;
-
-    const { _id: id, name, last_name, username,
+    const { id, name, last_name, username,
             email, address, phone,
             photo_url, permissions } = user;
 
     const mappedUser = {
-        id: id.toString(), name, last_name, username,
+        id, name, last_name, username,
         email, address, phone, photo_url, permissions
     };
 
@@ -16,15 +13,12 @@ const mapToUserProfile = (user) => {
 }
 
 const mapToCreatedUser = (user) => {
-    if(!user)
-        return null;
-
-    const { _id: id, name, last_name, username,
+    const { id, name, last_name, username,
             email, address, phone, password,
             photo_url, permissions } = user;
 
     const mappedUser = {
-        id: id.toString(), name, last_name, username,
+        id, name, last_name, username,
         email, address, phone,
         phone, photo_url, permissions,
 		temporal_password: password
@@ -34,14 +28,13 @@ const mapToCreatedUser = (user) => {
 }
 
 const mapToDefault = (user) => {
-    if(!user)
-        return null;
-
     const mappedUser = {
-        id: user._id.toString(),
         ...user
     }
+
     delete mappedUser._id;
+    delete mappedUser.__v;
+
     return mappedUser;
 }
 
@@ -51,11 +44,18 @@ export const MappingTypes = {
 	NONE: "NONE"
 }
 
-export const mapper = (type, user, extraAttributes = {}) => {
+export const mapper = (type, user, extraAttributes = {}, deleteAttributes = []) => {
+    if(!user)
+        return null;
+
 	let userToMapped = { ...user._doc };
 
 	if(Object.hasProperties(extraAttributes))
 		userToMapped = Object.assign(userToMapped, extraAttributes);
+
+    deleteAttributes.forEach(attribute => {
+        delete userToMapped[attribute];
+    });
 
 	const options = {
 		PROFILE: user => mapToUserProfile(user),

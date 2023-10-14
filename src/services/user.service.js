@@ -11,7 +11,7 @@ const findUserByUsername = async (username, mappingType = MappingTypes.NONE) => 
 }
 
 const findUserById = async (id, mappingType = MappingTypes.NONE) => {
-	const userFounded = await UserModel.findById(id).exec();
+	const userFounded = await UserModel.findOne({ id }).exec();
 	return mapper(mappingType, userFounded);
 }
 
@@ -35,7 +35,7 @@ const getUsers = async (limit, page, mappingType = MappingTypes.NONE) => {
 
 	const countToSkip = (pageNumber - 1) * countPerPage;
 	const users = await UserModel.find().skip(countToSkip).limit(countPerPage).exec();
-	return users.map(user => mapper(mappingType, user));
+	return users.map(user => mapper(mappingType, user, {},  ["is_admin", "password", "salt"]));
 }
 
 // TODO: Review this, is too limited
@@ -60,7 +60,9 @@ const createUserWithRandomPassword = async (user) => {
 	const passwordRandom = generationService.generateRandomCharacters(12);
 	const { salt, passwordHashed } = encryptService.encryptPassword(passwordRandom);
 
+	const id = generationService.generateRandomUuid();
 	const userCreated = await UserModel.create({
+		id,
 		...user,
 		username,
 		password: passwordHashed,
@@ -73,10 +75,16 @@ const updateUser = async (user) => {
 
 }
 
+const updateUserPermissions = async (userId, permissions) => {
+	 
+}
+
 export default {
 	findUserByUsername,
 	findUserById,
 	getUsers,
-	createUserWithRandomPassword
+	createUserWithRandomPassword,
+	updateUser,
+	updateUserPermissions
 }
 

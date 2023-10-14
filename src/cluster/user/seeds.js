@@ -1,12 +1,14 @@
 import { SEED_DB, SEED_DB_FORCE } from "../../config/env.js";
 import fileService, { USER_PERMISSIONS, USER_USERS } from "../../services/file.service.js";
+import generationService from "../../services/generation.service.js";
 import user, { default as db } from "./index.js";
 
 const NOTHING_TO_SEED_MSG = "Nothing to seed"; 
 
 const seedUsers = async () => {
     try {
-        const users = await fileService.readJson(USER_USERS);
+        let users = await fileService.readJson(USER_USERS);
+        users = users.map(user => ({ id: generationService.generateRandomUuid(), ...user }));
 
         const { User } = db.models;
         const count = await User.estimatedDocumentCount();
