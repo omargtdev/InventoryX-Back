@@ -2,11 +2,12 @@
 const mapToUserProfile = (user) => {
     const { id, name, last_name, username,
             email, address, phone,
-            photo_url, permissions } = user;
+            photo_url, permissions, created_at, updated_at } = user;
 
     const mappedUser = {
         id, name, last_name, username,
-        email, address, phone, photo_url, permissions
+        email, address, phone, photo_url, permissions,
+        created_at, updated_at
     };
 
     return mappedUser;

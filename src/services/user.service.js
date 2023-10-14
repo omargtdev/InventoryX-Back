@@ -35,7 +35,7 @@ const getUsers = async (limit, page, mappingType = MappingTypes.NONE) => {
 
 	const countToSkip = (pageNumber - 1) * countPerPage;
 	const users = await UserModel.find().skip(countToSkip).limit(countPerPage).exec();
-	return users.map(user => mapper(mappingType, user, {},  ["is_admin", "password", "salt"]));
+	return users.map(user => mapper(MappingTypes.PROFILE, user));
 }
 
 // TODO: Review this, is too limited
