@@ -35,7 +35,7 @@ const createUser = async (req, res) => {
 
 	try {
 		const userCreated = await userService.createUserWithRandomPassword(userValidated);
-		return res.status(statusCodes.OK).json(userCreated);
+		return res.status(statusCodes.CREATED).json(userCreated);
 	} catch (error) {
 		return res.status(statusCodes.BAD_REQUEST).json({ message: error.message });
 	}
