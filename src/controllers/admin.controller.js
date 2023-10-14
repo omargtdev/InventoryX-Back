@@ -1,10 +1,12 @@
 import statusCodes from "../config/status-codes.js";
+import permissionService from "../services/permission.service.js";
 import userService from "../services/user.service.js";
 import createUserValidator from "./validators/admin/createUserValidator.js";
 import updateUserValidator from "./validators/admin/updateUserValidator.js";
 
 const messages = {
-	USER_DOES_NOT_EXIST: "User does not exist."
+	USER_DOES_NOT_EXIST: "User does not exist.",
+	INVALID_PERMISSIONS: "Some permission is invalid."
 }
 
 const getUsers = async (req, res) => {
@@ -47,16 +49,18 @@ const updateUser = async (req, res) => {
 	const { error, value: { permissions: userPermissions } } = updateUserValidator.validate({ permissions });
 	if(error){
 		const firstError = error.details[0];
-		return res.status(statusCodes.BAD_REQUEST).send(firstError);
+		return res.status(statusCodes.BAD_REQUEST).json(firstError);
 	}
-
 
 	const userExists = await userService.findUserById(userId);
 	if(!userExists)
-		return res.status(statusCodes.NOT_FOUND).send({ message: messages.USER_DOES_NOT_EXIST })
+		return res.status(statusCodes.NOT_FOUND).json({ message: messages.USER_DOES_NOT_EXIST })
 
+	if(!(await permissionService.validatePermissions(userPermissions)))
+		return res.status(statusCodes.BAD_REQUEST).json({ message: messages.INVALID_PERMISSIONS });
 
-	return res.json(userPermissions);
+	const userUpdated = await userService.updateUserPermissions(userId, userPermissions);
+	return res.status(statusCodes.OK).json(userUpdated);
 }
 
 const changeStatusUser = async (req, res) => {

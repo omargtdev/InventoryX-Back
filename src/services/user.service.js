@@ -76,7 +76,12 @@ const updateUser = async (user) => {
 }
 
 const updateUserPermissions = async (userId, permissions) => {
-	 
+	const updated = await UserModel.updateOne({ id: userId }, { permissions }).exec();
+	if(!updated.acknowledged)
+		return {};
+
+	const userUpdated = await findUserById(userId, MappingTypes.PROFILE);
+	return userUpdated;
 }
 
 export default {
