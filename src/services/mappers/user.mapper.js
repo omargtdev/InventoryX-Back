@@ -1,12 +1,13 @@
 
 const mapToUserProfile = (user) => {
     const { id, name, last_name, username,
-            email, address, phone,
+            email, address, phone, is_admin,
             photo_url, permissions, created_at, updated_at } = user;
 
     const mappedUser = {
         id, name, last_name, username,
-        email, address, phone, photo_url, permissions,
+        email, address, phone, is_admin,
+				photo_url, permissions,
         created_at, updated_at
     };
 
@@ -15,14 +16,14 @@ const mapToUserProfile = (user) => {
 
 const mapToCreatedUser = (user) => {
     const { id, name, last_name, username,
-            email, address, phone, password,
-            photo_url, permissions } = user;
+            email, address, phone, is_admin,
+						password, photo_url, permissions } = user;
 
     const mappedUser = {
         id, name, last_name, username,
-        email, address, phone,
+        email, address, phone, is_admin,
         phone, photo_url, permissions,
-		temporal_password: password
+				temporal_password: password
     };
 
     return mappedUser;
