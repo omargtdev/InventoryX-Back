@@ -40,6 +40,9 @@ const createUser = async (req, res) => {
 		return res.status(statusCodes.BAD_REQUEST).send(firstError);
 	}
 
+	if(!(await permissionService.validatePermissions(userValidated.permissions)))
+		return res.status(statusCodes.BAD_REQUEST).json({ message: messages.INVALID_PERMISSIONS });
+
 	try {
 		const userCreated = await userService.createUserWithRandomPassword(userValidated);
 		return res.status(statusCodes.CREATED).json(userCreated);
