@@ -6,17 +6,29 @@ import encryptService from "../services/encrypt.service.js";
 const { User : UserModel } = cluster.databases.user.models;
 
 const findUserByUsername = async (username, mappingType = MappingTypes.NORMAL) => {
-	const userFounded = await UserModel.findOne({ username }).exec();
+	const userFounded = await UserModel
+		.findOne({ username })
+		.where("is_deleted", false)
+		.exec();
+
 	return mapper(mappingType, userFounded);
 }
 
 const findUserById = async (id, mappingType = MappingTypes.NORMAL) => {
-	const userFounded = await UserModel.findOne({ id }).exec();
+	const userFounded = await UserModel
+		.findOne({ id })
+		.where("is_deleted", false)
+		.exec();
+
 	return mapper(mappingType, userFounded);
 }
 
 const userExistsBy = async (filters) => {
-	const userFounded = await UserModel.findOne(filters).exec();
+	const userFounded = await UserModel
+		.findOne(filters)
+		.where("is_deleted", false)
+		.exec();
+
 	return Boolean(userFounded);
 }
 
