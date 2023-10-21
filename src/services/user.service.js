@@ -5,12 +5,12 @@ import encryptService from "../services/encrypt.service.js";
 
 const { User : UserModel } = cluster.databases.user.models;
 
-const findUserByUsername = async (username, mappingType = MappingTypes.NONE) => {
+const findUserByUsername = async (username, mappingType = MappingTypes.NORMAL) => {
 	const userFounded = await UserModel.findOne({ username }).exec();
 	return mapper(mappingType, userFounded);
 }
 
-const findUserById = async (id, mappingType = MappingTypes.NONE) => {
+const findUserById = async (id, mappingType = MappingTypes.NORMAL) => {
 	const userFounded = await UserModel.findOne({ id }).exec();
 	return mapper(mappingType, userFounded);
 }
@@ -20,7 +20,7 @@ const userExistsBy = async (filters) => {
 	return Boolean(userFounded);
 }
 
-const getUsers = async (limit, page, mappingType = MappingTypes.NONE) => {
+const getUsers = async (limit, page) => {
 	let countPerPage = limit;
 	let pageNumber = page;
 
@@ -35,12 +35,12 @@ const getUsers = async (limit, page, mappingType = MappingTypes.NONE) => {
 
 	const countToSkip = (pageNumber - 1) * countPerPage;
 	const users = await UserModel.find().skip(countToSkip).limit(countPerPage).exec();
-	return users.map(user => mapper(MappingTypes.PROFILE, user));
+	return users.map(user => mapper(MappingTypes.NORMAL, user));
 }
 
 // TODO: Review this, is too limited
 const generateUsernameForUser = async (name, lastName) => {
-	let actualNameIndex = 0; 
+	let actualNameIndex = 0;
 	let usernameFirstPart = name[actualNameIndex];
 	let finalUsername = `${usernameFirstPart}${lastName}`.toLowerCase();
 	while(await userExistsBy({ username: finalUsername })){
@@ -80,7 +80,7 @@ const updateUserPermissions = async (userId, permissions) => {
 	if(!updated.acknowledged)
 		return {};
 
-	const userUpdated = await findUserById(userId, MappingTypes.PROFILE);
+	const userUpdated = await findUserById(userId);
 	return userUpdated;
 }
 

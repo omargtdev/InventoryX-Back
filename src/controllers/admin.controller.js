@@ -1,5 +1,4 @@
 import statusCodes from "../config/status-codes.js";
-import { MappingTypes } from "../services/mappers/user.mapper.js";
 import permissionService from "../services/permission.service.js";
 import userService from "../services/user.service.js";
 import createUserValidator from "./validators/admin/createUserValidator.js";
@@ -18,7 +17,7 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
 	const { userId } = req.params;
-	const user = await userService.findUserById(userId, MappingTypes.PROFILE);
+	const user = await userService.findUserById(userId);
 	return res.status(statusCodes.OK).json(user);
 }
 

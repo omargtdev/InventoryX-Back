@@ -28,10 +28,15 @@ export const userSchema = new Schema({
 	salt: String,
 	email: { type: String, required: true, unique: true },
 	address: { type: String, required: true },
+	document_type: { type: String, required: true, enum: ["DNI", "RUC"] },
+	document_number: { type: String, unique: true, required: true, index: true },
 	phone: String,
-	is_admin: { type: Boolean, default: false },
 	photo_url: String,
+	is_active: { type: Boolean, default: true },
 	permissions: [String],
+	is_admin: { type: Boolean, default: false },
+	is_deleted: { type: Boolean, default: false },
 	created_at: { type: Date, default: Date.now },
-	updated_at: Date
+	updated_at: Date,
+	deleted_at: Date
 });

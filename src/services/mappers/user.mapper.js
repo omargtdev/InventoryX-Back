@@ -1,32 +1,29 @@
 
-const mapToUserProfile = (user) => {
-    const { id, name, last_name, username,
-            email, address, phone, is_admin,
-            photo_url, permissions, created_at, updated_at } = user;
+const mapToNormal = (user) => {
+    const { id, name,
+						last_name, username,
+            email, address,
+						document_type, document_number,
+						phone, is_admin, is_active,
+            photo_url, permissions, is_deleted,
+						created_at, updated_at, deleted_at } = user;
 
     const mappedUser = {
         id, name, last_name, username,
-        email, address, phone, is_admin,
-				photo_url, permissions,
-        created_at, updated_at
+        email, address, document_type, document_number,
+				phone, is_admin, is_active,
+				photo_url, permissions, is_deleted,
+        created_at, updated_at, deleted_at
     };
 
     return mappedUser;
 }
 
 const mapToCreatedUser = (user) => {
-    const { id, name, last_name, username,
-            email, address, phone, is_admin,
-						password, photo_url, permissions } = user;
+	const mappedUser = mapToNormal(user);
+	mappedUser.temporal_password = user.password;
 
-    const mappedUser = {
-        id, name, last_name, username,
-        email, address, phone, is_admin,
-        phone, photo_url, permissions,
-				temporal_password: password
-    };
-
-    return mappedUser;
+	return mappedUser;
 }
 
 const mapToDefault = (user) => {
@@ -41,7 +38,7 @@ const mapToDefault = (user) => {
 }
 
 export const MappingTypes = {
-	PROFILE: "PROFILE",
+	NORMAL: "NORMAL",
 	CREATED_USER: "CREATED_USER",
 	NONE: "NONE"
 }
@@ -60,7 +57,7 @@ export const mapper = (type, user, extraAttributes = {}, deleteAttributes = []) 
     });
 
 	const options = {
-		PROFILE: user => mapToUserProfile(user),
+		NORMAL: user => mapToNormal(user),
 		CREATED_USER: user => mapToCreatedUser(user),
 		NONE: user => mapToDefault(user)
 	}
