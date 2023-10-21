@@ -81,7 +81,7 @@ const updateUser = async (user) => {
 const updateUserStatus = async (id, enabled) => {
 	await UserModel.updateOne(
 		{ id },
-		{ is_active: enabled }
+		{ is_active: enabled, update_at: Date.now() }
 	);
 }
 
@@ -92,12 +92,15 @@ const deleteUser = async (id) => {
 	);
 }
 
-const updateUserPermissions = async (userId, permissions) => {
-	const updated = await UserModel.updateOne({ id: userId }, { permissions }).exec();
+const updateUserPermissions = async (id, permissions) => {
+	const updated = await UserModel.updateOne(
+		{ id },
+		{ permissions, updated_at: Date.now() }
+	).exec();
 	if(!updated.acknowledged)
 		return null;
 
-	const userUpdated = await findUserById(userId);
+	const userUpdated = await findUserById(id);
 	return userUpdated;
 }
 
