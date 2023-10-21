@@ -46,7 +46,12 @@ const getUsers = async (limit, page) => {
 		return [];
 
 	const countToSkip = (pageNumber - 1) * countPerPage;
-	const users = await UserModel.find().skip(countToSkip).limit(countPerPage).exec();
+	const users = await UserModel
+		.find({ is_deleted: false })
+		.skip(countToSkip)
+		.limit(countPerPage)
+		.exec();
+
 	return users.map(user => mapper(MappingTypes.NORMAL, user));
 }
 
