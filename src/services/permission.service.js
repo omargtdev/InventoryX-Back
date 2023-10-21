@@ -6,12 +6,11 @@ const validatePermissions = async (permissions) => {
     if(permissions.length === 0)
         return true;
 
-    let actualPermissions = await Permission.find().select("key -_id");
-    actualPermissions = actualPermissions.map(actualPermission => actualPermission.key);
-
-    for (const permission of permissions)
-        if (!actualPermissions.includes(permission))
-            return false;
+    for (const permission of permissions) {
+			const permissionFound = await Permission.findOne({ key: permission }).exec();
+			if(!permissionFound)
+				return false;
+		}
 
     return true;
 }
