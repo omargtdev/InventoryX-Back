@@ -10,12 +10,19 @@ const validatePermissions = async (permissions) => {
     actualPermissions = actualPermissions.map(actualPermission => actualPermission.key);
 
     for (const permission of permissions)
-        if (!actualPermissions.includes(permission)) 
+        if (!actualPermissions.includes(permission))
             return false;
 
     return true;
 }
 
-export default { 
-    validatePermissions
+const getPermissions = async () => {
+	const permissions = await Permission.find();
+	return permissions;
 }
+
+export default {
+    validatePermissions,
+		getPermissions
+}
+

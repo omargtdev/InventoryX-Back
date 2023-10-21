@@ -12,6 +12,7 @@ router.route("/admin/users/:userId")
 	.get(adminController.getUser)
 	.put(adminController.updateUser)
 	.patch(adminController.changeStatusUser);
+router.get("/admin/permissions", adminController.getAllPermissions);
 
 export default router;
 
