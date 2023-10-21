@@ -6,17 +6,29 @@ import encryptService from "../services/encrypt.service.js";
 const { User : UserModel } = cluster.databases.user.models;
 
 const findUserByUsername = async (username, mappingType = MappingTypes.NORMAL) => {
-	const userFounded = await UserModel.findOne({ username }).exec();
+	const userFounded = await UserModel
+		.findOne({ username })
+		.where("is_deleted", false)
+		.exec();
+
 	return mapper(mappingType, userFounded);
 }
 
 const findUserById = async (id, mappingType = MappingTypes.NORMAL) => {
-	const userFounded = await UserModel.findOne({ id }).exec();
+	const userFounded = await UserModel
+		.findOne({ id })
+		.where("is_deleted", false)
+		.exec();
+
 	return mapper(mappingType, userFounded);
 }
 
 const userExistsBy = async (filters) => {
-	const userFounded = await UserModel.findOne(filters).exec();
+	const userFounded = await UserModel
+		.findOne(filters)
+		.where("is_deleted", false)
+		.exec();
+
 	return Boolean(userFounded);
 }
 
@@ -34,7 +46,12 @@ const getUsers = async (limit, page) => {
 		return [];
 
 	const countToSkip = (pageNumber - 1) * countPerPage;
-	const users = await UserModel.find().skip(countToSkip).limit(countPerPage).exec();
+	const users = await UserModel
+		.find({ is_deleted: false })
+		.skip(countToSkip)
+		.limit(countPerPage)
+		.exec();
+
 	return users.map(user => mapper(MappingTypes.NORMAL, user));
 }
 
@@ -78,12 +95,29 @@ const updateUser = async (user) => {
 
 }
 
-const updateUserPermissions = async (userId, permissions) => {
-	const updated = await UserModel.updateOne({ id: userId }, { permissions }).exec();
+const updateUserStatus = async (id, enabled) => {
+	await UserModel.updateOne(
+		{ id },
+		{ is_active: enabled, update_at: Date.now() }
+	);
+}
+
+const deleteUser = async (id) => {
+	await UserModel.updateOne(
+		{ id },
+		{ is_deleted: true, deleted_at: Date.now() }
+	);
+}
+
+const updateUserPermissions = async (id, permissions) => {
+	const updated = await UserModel.updateOne(
+		{ id },
+		{ permissions, updated_at: Date.now() }
+	).exec();
 	if(!updated.acknowledged)
 		return null;
 
-	const userUpdated = await findUserById(userId);
+	const userUpdated = await findUserById(id);
 	return userUpdated;
 }
 
@@ -93,6 +127,8 @@ export default {
 	getUsers,
 	createUserWithRandomPassword,
 	updateUser,
-	updateUserPermissions
+	updateUserPermissions,
+	updateUserStatus,
+	deleteUser
 }
 
