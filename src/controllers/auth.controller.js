@@ -15,7 +15,7 @@ const getUserToken = async (req, res) => {
 		if (!username || !password)
 			return res.status(statusCodes.BAD_REQUEST).json({ message: messages.MISSING_FIELDS });
 
-		const user = await userService.findUserByUsername(username);
+		const user = await userService.findUserByUsername(username, MappingTypes.NONE);
 		if (!user)
 			return res.status(statusCodes.UNAUTHORIZED).json({ message: messages.INVALID_CREDENTIALS });
 
@@ -35,7 +35,7 @@ const getUserToken = async (req, res) => {
 const getProfile = async (req, res) => {
 	try {
 		const { userId } = req;
-		const user = await userService.findUserById(userId, MappingTypes.PROFILE);
+		const user = await userService.findUserById(userId);
 		return res.status(statusCodes.OK).json({ ...user });
 	} catch (error) {
 		console.log("ERROR GETTING PROFILE ---->", error);
