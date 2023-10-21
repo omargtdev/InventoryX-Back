@@ -22,10 +22,17 @@ const getUser = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
-	const { name, last_name, email, address, phone, permissions } = req.body;
+	const { name, last_name,
+					email, address,
+					phone, document_type,
+					document_number,
+					permissions
+	} = req.body;
+
 	const { error, value: userValidated } = createUserValidator.validate({
 		name, last_name, email,
-		address, phone, permissions
+		address, phone, document_type,
+		document_number, permissions
 	});
 
 	if(error){
@@ -69,11 +76,17 @@ const changeStatusUser = async (req, res) => {
 
 }
 
+const getAllPermissions = async (req, res) => {
+	const permissions = await permissionService.getPermissions();
+	return res.status(statusCodes.OK).json(permissions);
+}
+
 export default {
 	getUsers,
 	getUser,
 	createUser,
 	updateUser,
-	changeStatusUser
+	changeStatusUser,
+	getAllPermissions
 }
 

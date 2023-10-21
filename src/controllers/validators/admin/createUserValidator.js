@@ -18,6 +18,16 @@ const createUserValidator = Joi.object({
 	address: Joi.string()
 		.min(2)
 		.max(200),
+	document_type: Joi.string()
+		.valid("RUC", "DNI")
+		.required(),
+	document_number: Joi.when("document_type", {
+			switch: [
+				{ is: "RUC", then: Joi.string().pattern(/^\d+$/).length(11) },
+				{ is: "DNI", then: Joi.string().pattern(/^\d+$/).length(8) }
+			]
+		})
+		.required(),
 	phone: Joi.string()
 		.pattern(/^\d+$/)
 		.length(9)

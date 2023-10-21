@@ -55,6 +55,9 @@ const createUserWithRandomPassword = async (user) => {
 	if(await userExistsBy({ email: user.email }))
 		throw new Error("Email already exits!");
 
+	if(await userExistsBy({ document_number: user.document_number }))
+		throw new Error("Document number already exits!");
+
 	const username = await generateUsernameForUser(user.name, user.last_name);
 
 	const passwordRandom = generationService.generateRandomCharacters(12);
