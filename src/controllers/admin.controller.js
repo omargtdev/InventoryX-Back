@@ -6,7 +6,8 @@ import updateUserValidator from "./validators/admin/updateUserValidator.js";
 
 const messages = {
 	USER_DOES_NOT_EXIST: "User does not exist.",
-	INVALID_PERMISSIONS: "Some permission is invalid."
+	INVALID_PERMISSIONS: "Some permission is invalid.",
+	SOMETHING_WAS_WRONG: "Something was wrong with the operation."
 }
 
 const getUsers = async (req, res) => {
@@ -18,6 +19,9 @@ const getUsers = async (req, res) => {
 const getUser = async (req, res) => {
 	const { userId } = req.params;
 	const user = await userService.findUserById(userId);
+	if(!user)
+		return res.status(statusCodes.NOT_FOUND).json({ message: messages.USER_DOES_NOT_EXIST });
+
 	return res.status(statusCodes.OK).json(user);
 }
 
@@ -39,6 +43,9 @@ const createUser = async (req, res) => {
 		const firstError = error.details[0];
 		return res.status(statusCodes.BAD_REQUEST).send(firstError);
 	}
+
+	if(!(await permissionService.validatePermissions(userValidated.permissions)))
+		return res.status(statusCodes.BAD_REQUEST).json({ message: messages.INVALID_PERMISSIONS });
 
 	try {
 		const userCreated = await userService.createUserWithRandomPassword(userValidated);
@@ -67,6 +74,8 @@ const updateUser = async (req, res) => {
 		return res.status(statusCodes.BAD_REQUEST).json({ message: messages.INVALID_PERMISSIONS });
 
 	const userUpdated = await userService.updateUserPermissions(userId, userPermissions);
+	if(!userUpdated)
+		return res.status(statusCodes.INTERNAL_SERVER_ERROR).json({ message: messages.SOMETHING_WAS_WRONG });
 	return res.status(statusCodes.OK).json(userUpdated);
 }
 

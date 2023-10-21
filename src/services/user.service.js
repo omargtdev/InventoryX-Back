@@ -81,7 +81,7 @@ const updateUser = async (user) => {
 const updateUserPermissions = async (userId, permissions) => {
 	const updated = await UserModel.updateOne({ id: userId }, { permissions }).exec();
 	if(!updated.acknowledged)
-		return {};
+		return null;
 
 	const userUpdated = await findUserById(userId);
 	return userUpdated;
