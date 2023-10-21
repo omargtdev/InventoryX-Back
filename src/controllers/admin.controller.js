@@ -2,6 +2,7 @@ import statusCodes from "../config/status-codes.js";
 import permissionService from "../services/permission.service.js";
 import userService from "../services/user.service.js";
 import createUserValidator from "./validators/admin/createUserValidator.js";
+import updateUserStatusValidator from "./validators/admin/updateUserStatusValidator.js";
 import updateUserValidator from "./validators/admin/updateUserValidator.js";
 
 const messages = {
@@ -83,6 +84,31 @@ const changeStatusUser = async (req, res) => {
 	const { userId } = req.params;
 	const { enabled } = req.body;
 
+	const { error, value: { enabled: statusToChange } } = updateUserStatusValidator.validate({ enabled });
+	if(error){
+		const firstError = error.details[0];
+		return res.status(statusCodes.BAD_REQUEST).json(firstError);
+	}
+
+	const userExists = await userService.findUserById(userId);
+	if(!userExists)
+		return res.status(statusCodes.NOT_FOUND).json({ message: messages.USER_DOES_NOT_EXIST })
+
+	await userService.updateUserStatus(userId, statusToChange);
+
+	return res.status(statusCodes.NO_CONTENT).send();
+}
+
+const deleteUser = async (req, res) => {
+	const { userId } = req.params;
+
+	const userExists = await userService.findUserById(userId);
+	if(!userExists)
+		return res.status(statusCodes.NOT_FOUND).json({ message: messages.USER_DOES_NOT_EXIST })
+
+	await userService.deleteUser(userId);
+
+	return res.status(statusCodes.NO_CONTENT).send();
 }
 
 const getAllPermissions = async (req, res) => {
@@ -96,6 +122,7 @@ export default {
 	createUser,
 	updateUser,
 	changeStatusUser,
-	getAllPermissions
+	getAllPermissions,
+	deleteUser
 }
 

@@ -78,6 +78,20 @@ const updateUser = async (user) => {
 
 }
 
+const updateUserStatus = async (id, enabled) => {
+	await UserModel.updateOne(
+		{ id },
+		{ is_active: enabled }
+	);
+}
+
+const deleteUser = async (id) => {
+	await UserModel.updateOne(
+		{ id },
+		{ is_deleted: true, deleted_at: Date.now() }
+	);
+}
+
 const updateUserPermissions = async (userId, permissions) => {
 	const updated = await UserModel.updateOne({ id: userId }, { permissions }).exec();
 	if(!updated.acknowledged)
@@ -93,6 +107,8 @@ export default {
 	getUsers,
 	createUserWithRandomPassword,
 	updateUser,
-	updateUserPermissions
+	updateUserPermissions,
+	updateUserStatus,
+	deleteUser
 }
 
