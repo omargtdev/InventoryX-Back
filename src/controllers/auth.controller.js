@@ -6,7 +6,8 @@ import userService from "../services/user.service.js";
 
 const messages = {
 	MISSING_FIELDS: "Necesita proveer sus credenciales.",
-	INVALID_CREDENTIALS: "Las credenciales dadas son incorrectas."
+	INVALID_CREDENTIALS: "Las credenciales dadas son incorrectas.",
+	INACTIVE_USER: "Su usuario se encuentra inactivo."
 }
 
 const getUserToken = async (req, res) => {
@@ -18,6 +19,9 @@ const getUserToken = async (req, res) => {
 		const user = await userService.findUserByUsername(username, MappingTypes.NONE);
 		if (!user)
 			return res.status(statusCodes.UNAUTHORIZED).json({ message: messages.INVALID_CREDENTIALS });
+
+		if(!user.is_active)
+			return res.status(statusCodes.UNAUTHORIZED).json({ message: messages.INACTIVE_USER });
 
 		const { salt, password: userPassword, id, name } = user;
 		const isThePassword = encryptService.comparePassword(password, { salt, passwordHashed: userPassword });
