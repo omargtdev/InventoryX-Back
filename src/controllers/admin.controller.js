@@ -59,9 +59,9 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
 	const { userId } = req.params;
-	const { permissions } = req.body;
+	const { permissions, enabled } = req.body;
 
-	const { error, value: { permissions: userPermissions } } = updateUserValidator.validate({ permissions });
+	const { error, value: { permissions: userPermissions, enabled: statusToChange } } = updateUserValidator.validate({ permissions, enabled });
 	if(error){
 		const firstError = error.details[0];
 		return res.status(statusCodes.BAD_REQUEST).json(firstError);
@@ -74,9 +74,11 @@ const updateUser = async (req, res) => {
 	if(!(await permissionService.validatePermissions(userPermissions)))
 		return res.status(statusCodes.BAD_REQUEST).json({ message: messages.INVALID_PERMISSIONS });
 
+	await userService.updateUserStatus(userId, statusToChange);
 	const userUpdated = await userService.updateUserPermissions(userId, userPermissions);
 	if(!userUpdated)
 		return res.status(statusCodes.INTERNAL_SERVER_ERROR).json({ message: messages.SOMETHING_WAS_WRONG });
+
 	return res.status(statusCodes.OK).json(userUpdated);
 }
 
