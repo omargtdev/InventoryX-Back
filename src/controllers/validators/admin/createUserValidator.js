@@ -2,12 +2,12 @@ import Joi from "joi";
 
 const createUserValidator = Joi.object({
 	name: Joi.string()
-		.pattern(/^[a-zA-Z]+$/)
+		.pattern(/^(?![ .]+$)[a-zA-Z .]*$/)
 		.min(2)
 		.max(30)
 		.required(),
 	last_name: Joi.string()
-		.pattern(/^[a-zA-Z]+$/)
+		.pattern(/^(?![ .]+$)[a-zA-Z .]*$/)
 		.min(2)
 		.max(50)
 		.required(),
