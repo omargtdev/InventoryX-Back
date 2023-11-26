@@ -13,7 +13,7 @@ server.set('PORT', SERVER_PORT);
 
 // Middlewares
 server.use(cors({
-	origin: "http://localhost:5500" // dev
+	origin: ["http://localhost:5500", "https://omargtdev.github.io"]
 }));
 server.use(bodyParser.json());
 server.use(utilMiddleware.cleanBodyStringsExcept(["password"]))
